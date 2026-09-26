@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Academic Student Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-box">
+
+        <div class="login-icon">
+            🎓
+        </div>
+
+        <h1>Academic Tracker</h1>
+
+        <p>
+            Smart Student Academic Management System
+        </p>
+
+        <form id="loginForm">
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <small>
+            Demo: admin / 1234
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- ================= APPLICATION ================= -->
+
+<div id="application" class="application hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🎓
+            </div>
+
+            <div>
+                <h2>AcadTrack</h2>
+                <small>Student Portal</small>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button
+                class="nav active"
+                data-section="dashboard"
+            >
+                📊 Dashboard
+            </button>
+
+            <button
+                class="nav"
+                data-section="subjects"
+            >
+                📚 Subjects
+            </button>
+
+            <button
+                class="nav"
+                data-section="marks"
+            >
+                📝 Marks
+            </button>
+
+            <button
+                class="nav"
+                data-section="attendance"
+            >
+                ✅ Attendance
+            </button>
+
+            <button
+                class="nav"
+                data-section="tasks"
+            >
+                📅 Tasks
+            </button>
+
+            <button
+                class="nav"
+                data-section="goals"
+            >
+                🎯 Goals
+            </button>
+
+            <button
+                class="nav"
+                data-section="reports"
+            >
+                📈 Reports
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button id="darkMode">
+                🌙 Dark Mode
+            </button>
+
+            <button id="logout">
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div>
+
+                <h1 id="sectionTitle">
+                    Dashboard
+                </h1>
+
+                <p id="todayDate"></p>
+
+            </div>
+
+
+            <div class="header-right">
+
+                <div class="notification">
+                    🔔
+                    <span id="notificationNumber">
+                        0
+                    </span>
+                </div>
+
+                <div class="user">
+
+                    <div class="user-avatar">
+                        A
+                    </div>
+
+                    <div>
+                        <strong>Admin</strong>
+                        <small>Academic Coordinator</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section
+            id="dashboard"
+            class="section"
+        >
+
+            <div class="hero">
+
+                <div>
+
+                    <span>
+                        Academic Year 2026–27
+                    </span>
+
+                    <h2>
+                        Welcome to your Academic Tracker 👋
+                    </h2>
+
+                    <p>
+                        Monitor student performance,
+                        attendance, marks and academic goals.
+                    </p>
+
+                </div>
+
+                <div class="hero-icon">
+                    🎓
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-symbol blue">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+                        <span>Students</span>
+                        <strong id="studentCount">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-symbol purple">
+                        📚
+                    </div>
+
+                    <div>
+                        <span>Subjects</span>
+                        <strong id="subjectCount">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-symbol green">
+                        📈
+                    </div>
+
+                    <div>
+                        <span>Average Score</span>
+                        <strong id="averageScore">
+                            0%
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-symbol orange">
+                        🎯
+                    </div>
+
+                    <div>
+                        <span>Average Attendance</span>
+                        <strong id="averageAttendance">
+                            0%
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHART AREA -->
+
+            <div class="dashboard-grid">
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <div>
+                            <h3>Academic Performance</h3>
+                            <p>Subject-wise marks</p>
+                        </div>
+
+                    </div>
+
+                    <div class="chart-container">
+
+                        <canvas id="performanceChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <div>
+                            <h3>Academic Summary</h3>
+                            <p>Current progress</p>
+                        </div>
+
+                    </div>
+
+                    <div class="summary">
+
+                        <div class="summary-item">
+
+                            <span>Average Marks</span>
+
+                            <strong id="summaryMarks">
+                                0%
+                            </strong>
+
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                id="marksProgress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Attendance</span>
+
+                            <strong id="summaryAttendance">
+                                0%
+                            </strong>
+
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                id="attendanceProgress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Assignments Completed</span>
+
+                            <strong id="summaryTasks">
+                                0%
+                            </strong>
+
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                id="taskProgress"
+                                class="progress-fill"
+                            ></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- UPCOMING -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div>
+                        <h3>Upcoming Academic Activities</h3>
+                        <p>Important deadlines and examinations</p>
+                    </div>
+
+                </div>
+
+                <div id="upcomingDashboard"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SUBJECTS ================= -->
+
+        <section
+            id="subjects"
+            class="section hidden"
+        >
+
+            <div class="section-actions">
+
+                <div class="search">
+                    🔍
+                    <input
+                        type="text"
+                        id="subjectSearch"
+                        placeholder="Search subject..."
+                    >
+                </div>
+
+                <button
+                    class="primary"
+                    id="addSubjectBtn"
+                >
+                    + Add Subject
+                </button>
+
+            </div>
+
+
+            <div
+                id="subjectCards"
+                class="subject-grid"
+            ></div>
+
+        </section>
+
+
+        <!-- ================= MARKS ================= -->
+
+        <section
+            id="marks"
+            class="section hidden"
+        >
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div>
+                        <h3>Student Marks</h3>
+                        <p>
+                            Internal assessment and examination performance
+                        </p>
+                    </div>
+
+                    <button
+                        class="primary"
+                        id="addMarksBtn"
+                    >
+                        + Add Marks
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Subject</th>
+                                <th>Internal</th>
+                                <th>Assignment</th>
+                                <th>Exam</th>
+                                <th>Total</th>
+                                <th>Grade</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="marksTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ATTENDANCE ================= -->
+
+        <section
+            id="attendance"
+            class="section hidden"
+        >
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div>
+                        <h3>Student Attendance</h3>
+                        <p>
+                            Track subject-wise attendance
+                        </p>
+                    </div>
+
+                    <button
+                        class="primary"
+                        id="addAttendanceBtn"
+                    >
+                        + Update Attendance
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Subject</th>
+                                <th>Classes</th>
+                                <th>Present</th>
+                                <th>Absent</th>
+                                <th>Percentage</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="attendanceTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TASKS ================= -->
+
+        <section
+            id="tasks"
+            class="section hidden"
+        >
+
+            <div class="section-actions">
+
+                <div>
+                    <h2>Assignments & Exams</h2>
+                    <p>
+                        Track your upcoming academic activities.
+                    </p>
+                </div>
+
+                <button
+                    class="primary"
+                    id="addTaskBtn"
+                >
+                    + Add Activity
+                </button>
+
+            </div>
+
+
+            <div
+                id="taskList"
+                class="task-grid"
+            ></div>
+
+        </section>
+
+
+        <!-- ================= GOALS ================= -->
+
+        <section
+            id="goals"
+            class="section hidden"
+        >
+
+            <div class="section-actions">
+
+                <div>
+                    <h2>Academic Goals</h2>
+                    <p>
+                        Set targets and monitor progress.
+                    </p>
+                </div>
+
+                <button
+                    class="primary"
+                    id="addGoalBtn"
+                >
+                    + Add Goal
+                </button>
+
+            </div>
+
+
+            <div
+                id="goalList"
+                class="goal-grid"
+            ></div>
+
+        </section>
+
+
+        <!-- ================= REPORTS ================= -->
+
+        <section
+            id="reports"
+            class="section hidden"
+        >
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-symbol blue">
+                        📊
+                    </div>
+
+                    <div>
+                        <span>Average Score</span>
+                        <strong id="reportScore">
+                            0%
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-symbol green">
+                        ✅
+                    </div>
+
+                    <div>
+                        <span>Attendance</span>
+                        <strong id="reportAttendance">
+                            0%
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-symbol purple">
+                        🏆
+                    </div>
+
+                    <div>
+                        <span>Estimated CGPA</span>
+                        <strong id="reportCGPA">
+                            0.0
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div>
+                        <h3>Performance Report</h3>
+                        <p>
+                            Academic performance analysis
+                        </p>
+                    </div>
+
+                    <button
+                        class="secondary"
+                        id="exportReport"
+                    >
+                        📥 Export Report
+                    </button>
+
+                </div>
+
+
+                <div class="chart-container large">
+
+                    <canvas id="reportChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+    id="modal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Data
+            </h2>
+
+            <button id="closeModal">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="modalBody"></div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
